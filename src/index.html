@@ -1,0 +1,104 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Money Manager App</title>
+  <link rel="stylesheet" href="styles/reset.css">
+  <link rel="stylesheet" href="styles/style.css">
+  <link href="https://fonts.googleapis.com/css2?family=Rubik:wght@300;400;500;700&display=swap" rel="stylesheet">
+</head>
+
+<body>
+
+  <div class="app">
+
+    <header class="header">
+      <h1 class='header-title'>Money manager app</h1>
+    </header>
+
+    <div class="app__wrapper">
+      <div class="sidebar">
+        <nav class="sideabar-nav">
+          <ul class="sideabar-nav__links">
+            <li class='tab-button tab-button_active' id='tab-button-expense'>
+              <div class="nav-link">Expense</div>
+            </li>
+            <li class='tab-button' id='tab-button-convert'>
+              <div class="nav-link">Convert</div>
+            </li>
+            <li class='tab-button' id='tab-button-chart'>
+              <div class="nav-link">Chart</div>
+            </li>
+            <li class='tab-button' id='tab-button-home'>
+              <div class="nav-link">Home</div>
+            </li>
+          </ul>
+        </nav>
+      </div>
+
+      <main class="main" id='main'>
+        <div class="expense" id='expense' data-active="active-tab">
+          <div class="expense-container">
+            <div class="expense-content" id='expense-content'>
+              <div class="expense-field">
+                <div class="expense-field__info">№</div>
+                <div class="expense-field__info">Category</div>
+                <div class="expense-field__info">Amount</div>
+                <div class="expense-field__info">Date</div>
+              </div>
+
+              <!-- <div class="expense-field">
+                <div class="expense-field__info">1</div>
+                <div class="expense-field__info">Product</div>
+                <div class="expense-field__info">$1200</div>
+                <div class="expense-field__info">Wed Nov 22 2023 10:50:56</div>
+                <button class="expense-field__button expense-field__button_info">More Info</button>
+                <button class="expense-field__button expense-field__button_edit">Edit</button>
+                <button class="expense-field__button expense-field__button_remove">Remove</button>
+              </div>
+
+              <div class="expense-field">
+                <div class="expense-field__info">2</div>
+                <div class="expense-field__info">entertainment</div>
+                <div class="expense-field__info">$2200</div>
+                <div class="expense-field__info">Wed Nov 22 2023 10:50:56</div>
+                <button class="expense-field__button expense-field__button_info">More Info</button>
+                <button class="expense-field__button expense-field__button_edit">Edit</button>
+                <button class="expense-field__button expense-field__button_remove">Remove</button>
+              </div> -->
+            </div>
+          </div>
+        </div>
+        <div class="note none" id='form'>
+          <div class="note-container">
+            <form action="GET" class="note-form">
+              <select class='note-form__input note-form__input_category' name="category" id="note-input" data-id="input-category" placeholder='Category' required>
+                <option class='note-form__input-option' value disabled selected hidden>Category</option>
+                <option class='note-form__input-option' value="product">Product</option>
+                <option class='note-form__input-option' value="home">Home</option>
+                <option class='note-form__input-option' value="fun">Fun</option>
+                <option class='note-form__input-option' value="other">Other</option>
+              </select>
+              <input type="number" class='note-form__input note-form__input_sum' id='note-input' data-id="input-value" placeholder='amount' autocomplete='off' required>
+              <input type="datetime-local" class='note-form__input note-form__input_date' id='note-input' data-id="input-date">
+              <!-- <textarea resize='none' class='note-form__input note-form__input_txt' name="note-input" id="note-input" cols="30" rows="2"></textarea> -->
+              <input class='note-form__submit' type="submit" id='input-submit' value='OKEY' required>
+            </form>
+          </div>
+        </div>
+      </main>
+    </div>
+
+    <div class="put" id='put'>
+      <div class="put__txt">+</div>
+    </div>
+    <div class="overlay none" id='overlay'></div>
+  </div>
+
+  <script type='module' src="./index.js"></script>
+  <script type='module' src="../src/js/events.js"></script>
+</body>
+
+</html>
