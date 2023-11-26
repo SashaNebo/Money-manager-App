@@ -1,7 +1,7 @@
 import { elementDOM_var, expense_var } from './variables.js'
 
 const { put, overlay } = elementDOM_var
-const { noteForm, allNoteInput, removeButton, editButton } = expense_var
+const { noteForm, allNoteInput, removeButton, editButton, filterButton, filterBlock } = expense_var
 
 export let dataNote = []
 
@@ -12,22 +12,31 @@ const mark = {
   date: '',
 }
 
+function clearMark() {
+  mark.id = 0
+  mark.category = ''
+  mark.value = 0
+  mark.date = ''
+}
+
 let markId = null
 
 // ---
 
-const saveToLS = () => localStorage.setItem('dataNote', JSON.stringify(dataNote))
+function saveToLS() {
+  localStorage.setItem('dataNote', JSON.stringify(dataNote))
+}
 
 if (localStorage.getItem('dataNote')) {
   dataNote = JSON.parse(localStorage.getItem('dataNote'))
-  renderExpenseField()
+  renderExpenseField(dataNote)
 }
 
 // ---
 
-function renderExpenseField() {
+function renderExpenseField(array) {
   const expenseContent = document.getElementById('expense-content')
-  dataNote.forEach(({ id, category, value, date }, i) => {
+  array.forEach(({ id, category, value, date }, i) => {
     const expenseField = `
     <div class="expense-field" id="${id}">
       <div class="expense-field__info" id="place">${i + 1}</div>
@@ -41,7 +50,6 @@ function renderExpenseField() {
   `
     expenseContent.insertAdjacentHTML('beforeend', expenseField)
   })
-  saveToLS()
   haveMark()
 }
 
@@ -68,6 +76,7 @@ function handleNoteForm(e) {
   allNoteInput.forEach(input => (input.value = ''))
   addMark(mark)
   toggleNote()
+  clearMark()
 }
 
 function handleNoteInput() {
@@ -82,11 +91,17 @@ function handleNoteInput() {
       mark.date = new Date(this.value).toLocaleString()
       break
   }
-
   markId !== null ? (mark.id = markId) : (mark.id = Date.now())
 }
 
 function fillInputValue() {
+  const currentData = dataNote.filter(d => d.id === markId)[0]
+
+  mark.id = currentData.id
+  mark.category = currentData.category
+  mark.value = currentData.value
+  mark.date = currentData.date
+
   const dataInput = dataNote.filter(d => d.id === markId)[0]
 
   function convertTime(date) {
@@ -116,8 +131,13 @@ function fillInputValue() {
 function haveMark() {
   if (removeButton().length < 1) return
 
+  // Remove and Edit
   removeButton().forEach(button => button.addEventListener('click', removeMark))
   editButton().forEach(button => button.addEventListener('click', findMarkId))
+
+  // Filter
+  filterButton().addEventListener('click', openFilter)
+  filterBlock().addEventListener('click', closeFilter)
 }
 
 function addMark(mark) {
@@ -139,8 +159,8 @@ function addMark(mark) {
   `
 
   expenseContent.insertAdjacentHTML('beforeend', markHTML)
-  saveToLS()
   haveMark()
+  saveToLS()
 }
 
 function removeMark() {
@@ -165,7 +185,7 @@ function editMark() {
   const fieldValue = currentField.children[2]
   const fieldDate = currentField.children[3]
 
-  dataNote.forEach((obj, i) => (obj.id === markId ? dataNote.splice(i, 1, mark) : 0))
+  dataNote.forEach((obj, i) => (obj.id === markId ? dataNote.splice(i, 1, { ...mark }) : 0))
 
   fieldCategory.textContent = mark.category
   fieldValue.textContent = mark.value
@@ -173,6 +193,7 @@ function editMark() {
 
   allNoteInput.forEach(input => (input.value = ''))
   toggleNote()
+  clearMark()
   saveToLS()
 }
 
@@ -181,4 +202,77 @@ function findMarkId() {
   toggleNote()
 }
 
-export { renderExpenseField, handleNoteForm, handleNoteInput, addMark, toggleNote, haveMark, removeMark }
+// Filter
+
+function openFilter() {
+  if (dataNote < 1) return
+  filterBlock().classList.remove('none')
+
+  const buttonValue = document.querySelectorAll('.value__button')
+  const buttonTime = document.querySelectorAll('.category__button')
+  const buttonDefault = document.querySelector('.default__button')
+
+  buttonValue.forEach(bv => bv.addEventListener('click', filtredValue))
+  buttonTime.forEach(bt => bt.addEventListener('click', filtredTime))
+  buttonDefault.onclick = () => {
+    const acitveField = document.querySelectorAll('.expense-field')
+    acitveField.forEach((field, i) => (i > 0 ? field.remove() : 0))
+    renderExpenseField(dataNote)
+    filterBlock().classList.add('none')
+  }
+}
+
+function closeFilter({ target }) {
+  if (!target.closest('.filter-container')) {
+    filterBlock().classList.add('none')
+  }
+}
+
+function filtredValue({ target }) {
+  const acitveField = document.querySelectorAll('.expense-field')
+
+  acitveField.forEach((field, i) => (i > 0 ? field.remove() : 0))
+
+  let filteredArray = []
+  switch (target.dataset.value) {
+    case 'low':
+      filteredArray = [...dataNote].sort((a, b) => a.value - b.value)
+      renderExpenseField(filteredArray)
+      break
+    case 'high':
+      filteredArray = [...dataNote].sort((a, b) => b.value - a.value)
+      renderExpenseField(filteredArray)
+      break
+  }
+
+  filterBlock().classList.add('none')
+}
+
+function filtredTime({ target }) {
+  const acitveField = document.querySelectorAll('.expense-field')
+  acitveField.forEach((field, i) => (i > 0 ? field.remove() : 0))
+
+  let filteredArray = []
+  switch (target.dataset.category) {
+    case 'product':
+      filteredArray = [...dataNote].filter(({ category }) => category === 'product')
+      renderExpenseField(filteredArray)
+      break
+    case 'home':
+      filteredArray = [...dataNote].filter(({ category }) => category === 'home')
+      renderExpenseField(filteredArray)
+      break
+    case 'fun':
+      filteredArray = [...dataNote].filter(({ category }) => category === 'fun')
+      renderExpenseField(filteredArray)
+      break
+    case 'other':
+      filteredArray = [...dataNote].filter(({ category }) => category === 'other')
+      renderExpenseField(filteredArray)
+      break
+  }
+
+  filterBlock().classList.add('none')
+}
+
+export { renderExpenseField, handleNoteForm, handleNoteInput, addMark, toggleNote, haveMark, removeMark, openFilter, closeFilter }

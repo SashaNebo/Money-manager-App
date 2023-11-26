@@ -45,6 +45,7 @@ function renderExpense() {
             <div class="expense-field__info">Category</div>
             <div class="expense-field__info">Amount</div>
             <div class="expense-field__info">Date</div>
+            <button class="expense-field__button expense-field__button_filter">Filter</button>
           </div>
         </div>
       </div>
@@ -52,7 +53,7 @@ function renderExpense() {
   `
   mainContainer.insertAdjacentHTML('afterbegin', expenseHTML)
 
-  if (dataNote.length > 0) renderExpenseField()
+  if (dataNote.length > 0) renderExpenseField(dataNote)
 }
 
 function renderConvert() {

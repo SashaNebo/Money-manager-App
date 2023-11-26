@@ -10,6 +10,8 @@ const expense_var = {
   allNoteInput: document.querySelectorAll('#note-input'),
   removeButton: () => document.querySelectorAll('.expense-field__button_remove'),
   editButton: () => document.querySelectorAll('.expense-field__button_edit'),
+  filterButton: () => document.querySelector('.expense-field__button_filter'),
+  filterBlock: () => document.getElementById('filter'),
 }
 
 export { elementDOM_var, expense_var }

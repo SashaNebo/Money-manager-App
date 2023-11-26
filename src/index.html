@@ -47,27 +47,8 @@
                 <div class="expense-field__info">Category</div>
                 <div class="expense-field__info">Amount</div>
                 <div class="expense-field__info">Date</div>
+                <button class="expense-field__button expense-field__button_filter">Filter</button>
               </div>
-
-              <!-- <div class="expense-field">
-                <div class="expense-field__info">1</div>
-                <div class="expense-field__info">Product</div>
-                <div class="expense-field__info">$1200</div>
-                <div class="expense-field__info">Wed Nov 22 2023 10:50:56</div>
-                <button class="expense-field__button expense-field__button_info">More Info</button>
-                <button class="expense-field__button expense-field__button_edit">Edit</button>
-                <button class="expense-field__button expense-field__button_remove">Remove</button>
-              </div>
-
-              <div class="expense-field">
-                <div class="expense-field__info">2</div>
-                <div class="expense-field__info">entertainment</div>
-                <div class="expense-field__info">$2200</div>
-                <div class="expense-field__info">Wed Nov 22 2023 10:50:56</div>
-                <button class="expense-field__button expense-field__button_info">More Info</button>
-                <button class="expense-field__button expense-field__button_edit">Edit</button>
-                <button class="expense-field__button expense-field__button_remove">Remove</button>
-              </div> -->
             </div>
           </div>
         </div>
@@ -88,6 +69,7 @@
             </form>
           </div>
         </div>
+
       </main>
     </div>
 
@@ -95,6 +77,32 @@
       <div class="put__txt">+</div>
     </div>
     <div class="overlay none" id='overlay'></div>
+  </div>
+
+  <div class="filter none" id='filter'>
+    <div class="filter-container">
+      <div class="filter__content">
+        <div class="value">
+          <h2 class="value__title">Amount</h2>
+          <div class="value__wrapper">
+            <button class="value__button" data-value="low">Low to High</button>
+            <button class="value__button" data-value="high">High to Low</button>
+          </div>
+        </div>
+        <div class="category">
+          <h2 class="category__title">Category</h2>
+          <div class="category__wrapper">
+            <button class="category__button" data-category="product">product</button>
+            <button class="category__button" data-category="home">home</button>
+            <button class="category__button" data-category="fun">fun</button>
+            <button class="category__button" data-category="other">other</button>
+          </div>
+        </div>
+        <div class="default">
+          <button class="default__button">default</button>
+        </div>
+      </div>
+    </div>
   </div>
 
   <script type='module' src="./index.js"></script>
