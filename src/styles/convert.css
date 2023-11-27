@@ -1,0 +1,151 @@
+.convert {
+  margin: 100px 0;
+}
+
+.convert__container {
+  width: 100%;
+  max-width: 1400px;
+  margin: 0 auto;
+}
+
+.convert__content {
+  width: 90%;
+  display: flex;
+  align-items: center;
+  flex-direction: column;
+  padding: 0 20px;
+}
+
+.convert__title {
+  font-family: 'Rubik', sans-serif;
+  font-size: 28px;
+  font-weight: 300;
+  letter-spacing: .1em;
+}
+
+.convert__w {
+  margin-top: 25px;
+}
+
+.convert__value {
+  font-family: 'Rubik', sans-serif;
+  font-size: 40px;
+  font-weight: 400;
+}
+
+.convert__currency {
+  font-family: 'Rubik', sans-serif;
+  font-size: 18px;
+  font-weight: 500;
+  margin-left: 5px;
+  color: rgba(0, 0, 0, .4);
+}
+
+.convert__form {
+  display: flex;
+  align-items: center;
+  flex-direction: column;
+  margin-top: 40px;
+  width: 45%;
+}
+
+.convert__from-wrapper {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-direction: column;
+  row-gap: 5px;
+  width: 100%;
+}
+
+.convert__form-label {
+  font-size: 18px;
+  color: rgba(0, 0, 0, .5);
+  width: 100%;
+  text-align: left;
+}
+
+.convert__form-value {
+  font-family: 'Rubik', sans-serif;
+  font-size: 26px;
+  font-weight: 400;
+  text-align: left;
+  width: 100%;
+  padding: 10px 15px;
+  border: 1px solid #000;
+}
+
+.convert__form-value:focus-visible {
+  outline: none;
+}
+
+.convert__form-submit {
+  font-family: 'Rubik', sans-serif;
+  font-size: 20px;
+  font-weight: 400;
+  text-transform: capitalize;
+  text-align: center;
+  padding: 15px 20px;
+  border: 1px solid #000;
+  background: transparent;
+  width: 100%;
+  transition: opacity .15s linear;
+  margin-top: 40px;
+}
+
+.convert__form-submit:hover {
+  opacity: .5;
+}
+
+.selected {
+  display: grid;
+  grid-template-columns: 2fr auto 2fr;
+  gap: 30px;
+  margin-bottom: 40px;
+  width: 100%;
+}
+
+.selected__wrapper {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-direction: column;
+  row-gap: 5px;
+  width: 100%;
+}
+
+.selected__change {
+  height: 83%;
+  display: flex;
+  align-items: flex-end;
+}
+
+.selected__change svg {
+  padding: 5px;
+  box-shadow: 0 0 5px 0 rgba(0, 0, 0, 0.2);
+  cursor: pointer;
+  border-radius: 4px;
+}
+
+.selected__label {
+  font-size: 18px;
+  color: rgba(0, 0, 0, 0.5);
+  width: 100%;
+  text-align: left;
+}
+
+.selected__select {
+  font-family: 'Rubik', sans-serif;
+  font-size: 18px;
+  font-weight: 400;
+  padding: 15px 20px;
+  width: 100%;
+}
+
+.selected__select:focus-visible {
+  outline: none;
+}
+
+.selected__option {
+  font-weight: 400;
+}

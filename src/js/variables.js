@@ -14,4 +14,19 @@ const expense_var = {
   filterBlock: () => document.getElementById('filter'),
 }
 
-export { elementDOM_var, expense_var }
+const convert_var = {
+  fromSelect: () => document.getElementById('from'),
+  toSelect: () => document.getElementById('to'),
+  inputValue: () => document.getElementById('value'),
+  convertForm: () => document.querySelector('.convert__form'),
+  convertValue: () => document.querySelector('.convert__value'),
+  convertCurrency: () => document.querySelector('.convert__currency'),
+  switchButton: () => document.querySelector('.switch-button'),
+  store: {
+    from: '',
+    to: '',
+    amount: '',
+  },
+}
+
+export { elementDOM_var, expense_var, convert_var }

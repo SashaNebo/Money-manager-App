@@ -7,6 +7,7 @@
   <title>Money Manager App</title>
   <link rel="stylesheet" href="styles/reset.css">
   <link rel="stylesheet" href="styles/style.css">
+  <link rel="stylesheet" href="styles/convert.css">
   <link href="https://fonts.googleapis.com/css2?family=Rubik:wght@300;400;500;700&display=swap" rel="stylesheet">
 </head>
 
@@ -37,21 +38,22 @@
           </ul>
         </nav>
       </div>
-
       <main class="main" id='main'>
+
         <div class="expense" id='expense' data-active="active-tab">
           <div class="expense-container">
             <div class="expense-content" id='expense-content'>
               <div class="expense-field">
                 <div class="expense-field__info">№</div>
                 <div class="expense-field__info">Category</div>
-                <div class="expense-field__info">Amount</div>
+                <div class="expense-field__info">Price</div>
                 <div class="expense-field__info">Date</div>
                 <button class="expense-field__button expense-field__button_filter">Filter</button>
               </div>
             </div>
           </div>
         </div>
+
         <div class="note none" id='form'>
           <div class="note-container">
             <form action="GET" class="note-form">
@@ -62,7 +64,7 @@
                 <option class='note-form__input-option' value="fun">Fun</option>
                 <option class='note-form__input-option' value="other">Other</option>
               </select>
-              <input type="number" class='note-form__input note-form__input_sum' id='note-input' data-id="input-value" placeholder='amount' autocomplete='off' required>
+              <input type="number" class='note-form__input note-form__input_sum' id='note-input' data-id="input-value" placeholder='Price' autocomplete='off' required>
               <input type="datetime-local" class='note-form__input note-form__input_date' id='note-input' data-id="input-date">
               <!-- <textarea resize='none' class='note-form__input note-form__input_txt' name="note-input" id="note-input" cols="30" rows="2"></textarea> -->
               <input class='note-form__submit' type="submit" id='input-submit' value='OKEY' required>
@@ -77,13 +79,14 @@
       <div class="put__txt">+</div>
     </div>
     <div class="overlay none" id='overlay'></div>
+
   </div>
 
   <div class="filter none" id='filter'>
     <div class="filter-container">
       <div class="filter__content">
         <div class="value">
-          <h2 class="value__title">Amount</h2>
+          <h2 class="value__title">Price</h2>
           <div class="value__wrapper">
             <button class="value__button" data-value="low">Low to High</button>
             <button class="value__button" data-value="high">High to Low</button>

@@ -3,6 +3,8 @@ import { elementDOM_var, expense_var } from './variables.js'
 const { put, overlay } = elementDOM_var
 const { noteForm, allNoteInput, removeButton, editButton, filterButton, filterBlock } = expense_var
 
+// Data
+
 export let dataNote = []
 
 const mark = {
@@ -12,27 +14,20 @@ const mark = {
   date: '',
 }
 
-function clearMark() {
-  mark.id = 0
-  mark.category = ''
-  mark.value = 0
-  mark.date = ''
-}
-
 let markId = null
 
-// ---
-
-function saveToLS() {
-  localStorage.setItem('dataNote', JSON.stringify(dataNote))
-}
+// Save to Local Storage
 
 if (localStorage.getItem('dataNote')) {
   dataNote = JSON.parse(localStorage.getItem('dataNote'))
   renderExpenseField(dataNote)
 }
 
-// ---
+function saveToLS() {
+  localStorage.setItem('dataNote', JSON.stringify(dataNote))
+}
+
+// Render, add, edit
 
 function renderExpenseField(array) {
   const expenseContent = document.getElementById('expense-content')
@@ -202,6 +197,13 @@ function findMarkId() {
   toggleNote()
 }
 
+function clearMark() {
+  mark.id = 0
+  mark.category = ''
+  mark.value = 0
+  mark.date = ''
+}
+
 // Filter
 
 function openFilter() {
@@ -230,7 +232,6 @@ function closeFilter({ target }) {
 
 function filtredValue({ target }) {
   const acitveField = document.querySelectorAll('.expense-field')
-
   acitveField.forEach((field, i) => (i > 0 ? field.remove() : 0))
 
   let filteredArray = []
