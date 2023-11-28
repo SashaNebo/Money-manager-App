@@ -1,6 +1,7 @@
 import { elementDOM_var } from './variables.js'
 import { dataNote, renderExpenseField } from './expenses.js'
 import { startConvert } from './convert.js'
+import { startHome, startHomeDefault } from './home.js'
 const { mainContainer } = elementDOM_var
 function controllActiveTab() {
   if (this.closest('.tab-button_active')) return
@@ -181,7 +182,9 @@ function renderHome() {
           </div>
         </div>
   `
-  mainContainer.insertAdjacentHTML('afterbegin', homeHTML)
+  // mainContainer.insertAdjacentHTML('afterbegin', homeHTML)
+
+  dataNote.length > 0 ? startHome() : startHomeDefault()
 }
 
 export { controllActiveTab }

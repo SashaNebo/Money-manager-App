@@ -29,4 +29,11 @@ const convert_var = {
   },
 }
 
-export { elementDOM_var, expense_var, convert_var }
+const home_var = {
+  chartLinear: () => document.querySelectorAll('.chart__linear'),
+  timeSelect: () => document.getElementById('time'),
+  statisticsContent: () => document.getElementById('statistics'),
+  chartHTML: () => document.getElementById('chart'),
+}
+
+export { elementDOM_var, expense_var, convert_var, home_var }

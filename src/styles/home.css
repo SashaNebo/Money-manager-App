@@ -1,5 +1,5 @@
 .home {
-  margin: 100px 0 110px;
+  margin: 100px 0;
 }
 
 .home__container {
@@ -97,6 +97,7 @@
   text-transform: capitalize;
   padding: 15px 20px;
   width: 20%;
+  cursor: pointer;
 }
 
 .statistics__select:focus-visible {
@@ -140,7 +141,7 @@
 }
 
 .chart__linear {
-  min-height: 40px;
+  min-height: 60px;
   box-shadow: 0 0 5px 5px rgba(0, 0, 0, 0.2);
   display: flex;
   align-items: center;
