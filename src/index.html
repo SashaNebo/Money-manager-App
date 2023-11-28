@@ -8,6 +8,7 @@
   <link rel="stylesheet" href="styles/reset.css">
   <link rel="stylesheet" href="styles/style.css">
   <link rel="stylesheet" href="styles/convert.css">
+  <link rel="stylesheet" href="styles/home.css">
   <link href="https://fonts.googleapis.com/css2?family=Rubik:wght@300;400;500;700&display=swap" rel="stylesheet">
 </head>
 
@@ -20,7 +21,7 @@
     </header>
 
     <div class="app__wrapper">
-      <div class="sidebar">
+      <aside class="sidebar">
         <nav class="sideabar-nav">
           <ul class="sideabar-nav__links">
             <li class='tab-button tab-button_active' id='tab-button-expense'>
@@ -29,15 +30,12 @@
             <li class='tab-button' id='tab-button-convert'>
               <div class="nav-link">Convert</div>
             </li>
-            <li class='tab-button' id='tab-button-chart'>
-              <div class="nav-link">Chart</div>
-            </li>
             <li class='tab-button' id='tab-button-home'>
               <div class="nav-link">Home</div>
             </li>
           </ul>
         </nav>
-      </div>
+      </aside>
       <main class="main" id='main'>
 
         <div class="expense" id='expense' data-active="active-tab">
@@ -64,13 +62,80 @@
                 <option class='note-form__input-option' value="fun">Fun</option>
                 <option class='note-form__input-option' value="other">Other</option>
               </select>
-              <input type="number" class='note-form__input note-form__input_sum' id='note-input' data-id="input-value" placeholder='Price' autocomplete='off' required>
+              <input min='1' type="number" class='note-form__input note-form__input_sum' id='note-input' data-id="input-value" autocomplete='off' placeholder='Price' required>
               <input type="datetime-local" class='note-form__input note-form__input_date' id='note-input' data-id="input-date">
               <!-- <textarea resize='none' class='note-form__input note-form__input_txt' name="note-input" id="note-input" cols="30" rows="2"></textarea> -->
               <input class='note-form__submit' type="submit" id='input-submit' value='OKEY' required>
             </form>
           </div>
         </div>
+
+
+        <div hidden class="home">
+          <div class="home__container">
+            <div class="home__content">
+              <div class="data">
+                <div class="data__block">
+                  <h3 class="data__title">Profit avg in mounth</h3>
+                  <div class="data__wrapper">
+                    <div class="data__value">8933.00 <span>USD</span></div>
+                  </div>
+                </div>
+                <div class="data__block">
+                  <h3 class="data__title">Expense avg in mounth</h3>
+                  <div class="data__wrapper">
+                    <div class="data__value">3009.15 <span>USD</span></div>
+                  </div>
+                  <div class="balance">
+                    <div class="balance__info">Account balance: <span>960.00</span> USD</div>
+                    <div class="balance__info">Current expense: <span>2001.00</span> USD</div>
+                  </div>
+                </div>
+              </div>
+
+              <div class="statistics">
+                <div class="statistics-header">
+                  <h1 class="statistics__title">Statistics All</h1>
+                  <select class='statistics__select' name="time" id="time">
+                    <option class='statistics__option' value="" disabled selected hidden>Choose Time</option>
+                    <option class='statistics__option' value="day">day</option>
+                    <option class='statistics__option' value="week">week</option>
+                    <option class='statistics__option' value="mounth">mounth</option>
+                    <option class='statistics__option' value="year">year</option>
+                    <option class='statistics__option' value="all">all</option>
+                  </select>
+                </div>
+                <div class="chart">
+                  <div class="chart__list">
+                    <div class="chart__el">
+                      <h3 class="chart__title">Product <span class='chart_sum'>1200.00</span></h3>
+                      <div class="chart__linear chart__linear-product"><span class='percent'>30%</span></div>
+                    </div>
+                    <div class="chart__el">
+                      <h3 class="chart__title">Home <span class='chart_sum'>700.00</span></h3>
+                      <div class="chart__linear chart__linear-home"><span class='percent'>20%</span></div>
+                    </div>
+                    <div class="chart__el">
+                      <h3 class="chart__title">Fun <span class='chart_sum'>400.00</span></h3>
+                      <div class="chart__linear chart__linear-fun"><span class='percent'>15%</span></div>
+                    </div>
+                    <div class="chart__el">
+                      <h3 class="chart__title">Other <span class='chart_sum'>1500.00</span></h3>
+                      <div class="chart__linear chart__linear-other"><span class='percent'>35%</span></div>
+                    </div>
+                  </div>
+
+                  <div class="chart__sum">
+                    <span class="chart__sum-title">Total expenses</span>
+                    <span class="chart__sum-number">2990.00</span>
+                    <span class="chart__sum-currency">USD</span>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+
 
       </main>
     </div>
