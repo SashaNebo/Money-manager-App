@@ -184,7 +184,8 @@ function renderHome() {
   `
   // mainContainer.insertAdjacentHTML('afterbegin', homeHTML)
 
-  dataNote.length > 0 ? startHome() : startHomeDefault()
+  // dataNote.length > 0 ? startHome() : startHomeDefault()
+  startHome()
 }
 
 export { controllActiveTab }

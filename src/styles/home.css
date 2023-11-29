@@ -87,6 +87,7 @@
   font-size: 36px;
   font-weight: 400;
   letter-spacing: 2px;
+  text-transform: capitalize;
   color: rgba(0, 0, 0, .7);
 }
 
@@ -149,19 +150,19 @@
 }
 
 .chart__linear-product {
-  width: 30%;
+  width: 0%;
 }
 
 .chart__linear-home {
-  width: 20%;
+  width: 0%;
 }
 
 .chart__linear-fun {
-  width: 15%;
+  width: 0%;
 }
 
 .chart__linear-other {
-  width: 35%;
+  width: 0%;
 }
 
 .percent {
@@ -196,6 +197,69 @@
   font-size: 18px;
   font-weight: 700;
   color: rgba(0, 0, 0, 0.5);
+}
+
+/* Change */
+
+.change {
+  position: fixed;
+  width: 200%;
+  height: 100%;
+  top: 50%;
+  left: 55%;
+  z-index: 3;
+  transform: translate(-50%, -50%);
+  background-color: rgba(0, 0, 0, 0.2);
+}
+
+.change__container {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 100%;
+}
+
+.change__form {
+  display: flex;
+  flex-direction: column;
+  align-items: end;
+  row-gap: 20px;
+  padding: 20px;
+}
+
+.change__close {
+  width: fit-content;
+  background: #fff;
+  border: none;
+  padding: 5px 20px;
+  text-transform: capitalize;
+  font-family: Rubik, sans-serif;
+  font-size: 18px;
+  font-weight: 400;
+  color: #000;
+  cursor: pointer;
+}
+
+.change__input {
+  font-family: Rubik, sans-serif;
+  font-size: 26px;
+  font-weight: 400;
+  padding: 20px;
+  border: none;
+}
+
+.change__input:focus-visible {
+  outline: none;
+}
+
+.change__submit {
+  font-family: Rubik, sans-serif;
+  font-size: 16px;
+  font-weight: 400;
+  padding: 10px 0;
+  width: 100%;
+  background: #fff;
+  border: none;
 }
 
 @keyframes moveWidth {

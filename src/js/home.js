@@ -1,12 +1,28 @@
 import { elementDOM_var, home_var } from './variables.js'
 import { dataNote } from './expenses.js'
 
-const { mainContainer } = elementDOM_var
-const { chartLinear, timeSelect, statisticsContent, chartHTML } = home_var
+const { mainContainer, change } = elementDOM_var
+const { chartLinear, timeSelect, statisticsContent, chartHTML, titleCategory, homeDataValueEl } = home_var
+
+function saveMoneyDataToLS() {
+  localStorage.setItem('dataMoney', JSON.stringify(tabValue))
+}
+
+function renderMoneyDatainJSON() {
+  if (localStorage.getItem('dataMoney')) {
+    tabValue = JSON.parse(localStorage.getItem('dataMoney'))
+    renderChangeData('profit', tabValue.profitValue)
+    renderChangeData('expense', tabValue.expenseValue)
+  }
+}
 
 const calcTotalExpenses = array => array.reduce((acc, { value }) => (acc += +value), 0)
 const calcCategoryExpenses = (c, array) => array.filter(({ category }) => category === c).reduce((acc, { value }) => (acc += +value), 0)
-const calcPercentExpenses = (c, array) => calcCategoryExpenses(c, array) / (calcTotalExpenses(array) / 100)
+const calcPercentExpenses = (c, array) => {
+  if (calcCategoryExpenses(c, array) === 0 || calcTotalExpenses(array) === 0) return 0
+  return calcCategoryExpenses(c, array) / (calcTotalExpenses(array) / 100)
+}
+
 function renderProgressLinear(array) {
   chartLinear().forEach(line => {
     switch (line.dataset.id) {
@@ -46,19 +62,27 @@ function filterStatisticsForTime({ target }) {
   switch (target.value) {
     case 'day':
       filterArrayForTime = dataNote.filter(({ date }) => new Date(convertTime(date)).getTime() >= getDayAgo())
+      titleCategory().textContent = `Statistics ${target.value}`
       renderFilteredStatistics(filterArrayForTime)
       break
     case 'week':
       filterArrayForTime = dataNote.filter(({ date }) => new Date(convertTime(date)).getTime() >= getWeekAgo())
+      titleCategory().textContent = `Statistics ${target.value}`
       renderFilteredStatistics(filterArrayForTime)
       break
     case 'mounth':
       filterArrayForTime = dataNote.filter(({ date }) => new Date(convertTime(date)).getTime() >= getMounthAgo())
+      titleCategory().textContent = `Statistics ${target.value}`
       renderFilteredStatistics(filterArrayForTime)
       break
     case 'year':
       filterArrayForTime = dataNote.filter(({ date }) => new Date(convertTime(date)).getTime() >= getYearAgo())
+      titleCategory().textContent = `Statistics ${target.value}`
       renderFilteredStatistics(filterArrayForTime)
+      break
+    case 'all':
+      titleCategory().textContent = `Statistics ${target.value}`
+      renderFilteredStatistics(dataNote)
       break
   }
 }
@@ -96,7 +120,67 @@ function renderFilteredStatistics(filteredArray) {
   `
 
   statisticsContent().insertAdjacentHTML('beforeend', statisticsContentHTML)
-  renderProgressLinear(dataNote)
+  renderProgressLinear(filteredArray)
+}
+
+let dataValue = 0
+let currentTab = ''
+
+let tabValue = {
+  profitValue: 0,
+  expenseValue: 0,
+}
+
+function closeChangeTab() {
+  change.classList.add('none')
+  change.querySelector('.change__input').value = ''
+}
+
+function handleInput({ target }) {
+  dataValue = target.value
+}
+
+function handleForm(e) {
+  e.preventDefault()
+
+  closeChangeTab()
+  renderChangeData(currentTab, dataValue)
+  change.querySelector('.change__input').value = ''
+}
+
+function getActiveTab({ target }) {
+  currentTab = ''
+  change.classList.remove('none')
+  currentTab = target.dataset.id
+}
+
+function renderChangeData(tab, value) {
+  tab === 'expense' ? (tabValue.expenseValue = +value) : (tabValue.profitValue = +value)
+  saveMoneyDataToLS()
+
+  const activeTabValue = document.querySelector(`[data-id="${tab}"]`)
+  activeTabValue.innerHTML = `${(+value).toFixed(2)} <span>USD</span>`
+
+  if (tab === 'profit') return
+
+  const balanceValue = array => +value - calcTotalExpenses(array)
+  const balanceHTML = () => {
+    return `
+    <div class="balance__info">Relative balance: <span>${balanceValue(dataNote).toFixed(2)}</span> USD</div>
+    <div class="balance__info">Current expense: <span>${calcTotalExpenses(dataNote).toFixed(2)}</span> USD</div>`
+  }
+  document.querySelector('.balance').innerHTML = balanceHTML()
+}
+
+function homeEvents() {
+  // Filter time
+  timeSelect().addEventListener('change', filterStatisticsForTime)
+
+  // Change data value
+  change.querySelector('.change__form').addEventListener('submit', handleForm)
+  change.querySelector('.change__input').addEventListener('input', handleInput)
+  change.querySelector('.change__close').addEventListener('click', closeChangeTab)
+  homeDataValueEl().forEach(el => el.addEventListener('click', getActiveTab))
 }
 
 function startHome() {
@@ -108,17 +192,17 @@ function startHome() {
                 <div class="data__block">
                   <h3 class="data__title">Profit avg in mounth</h3>
                   <div class="data__wrapper">
-                    <div class="data__value">8933.00 <span>USD</span></div>
+                    <div class="data__value" data-id="profit">${tabValue.profitValue.toFixed(2)} <span>USD</span></div>
                   </div>
                 </div>
                 <div class="data__block">
                   <h3 class="data__title">Expense avg in mounth</h3>
                   <div class="data__wrapper">
-                    <div class="data__value">3009.15 <span>USD</span></div>
+                    <div class="data__value" data-id="expense">${tabValue.expenseValue.toFixed(2)} <span>USD</span></div>
                   </div>
                   <div class="balance">
-                    <div class="balance__info">Account balance: <span>960.00</span> USD</div>
-                    <div class="balance__info">Current expense: <span>2001.00</span> USD</div>
+                    <div class="balance__info">Relative balance: <span>0.00</span> USD</div>
+                    <div class="balance__info">Current expense: <span>${calcTotalExpenses(dataNote).toFixed(2)}</span> USD</div>
                   </div>
                 </div>
               </div>
@@ -168,7 +252,8 @@ function startHome() {
   `
   mainContainer.insertAdjacentHTML('beforeend', homeHTML)
   renderProgressLinear(dataNote)
-  timeSelect().addEventListener('change', filterStatisticsForTime)
+  renderMoneyDatainJSON()
+  homeEvents()
 }
 
 function startHomeDefault() {

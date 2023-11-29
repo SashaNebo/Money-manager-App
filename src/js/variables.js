@@ -3,6 +3,7 @@ const elementDOM_var = {
   tabs: document.querySelectorAll('.tab-button'),
   overlay: document.getElementById('overlay'),
   put: document.getElementById('put'),
+  change: document.getElementById('change'),
 }
 
 const expense_var = {
@@ -34,6 +35,8 @@ const home_var = {
   timeSelect: () => document.getElementById('time'),
   statisticsContent: () => document.getElementById('statistics'),
   chartHTML: () => document.getElementById('chart'),
+  titleCategory: () => document.querySelector('.statistics__title'),
+  homeDataValueEl: () => document.querySelectorAll('.data__value'),
 }
 
 export { elementDOM_var, expense_var, convert_var, home_var }
