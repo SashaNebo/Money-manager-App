@@ -1,7 +1,7 @@
 import { elementDOM_var } from './variables.js'
 import { dataNote, renderExpenseField } from './expenses.js'
 import { startConvert } from './convert.js'
-import { startHome } from './home.js'
+import { startHome, currency } from './home.js'
 const { mainContainer } = elementDOM_var
 function controllActiveTab() {
   if (this.closest('.tab-button_active')) return
@@ -41,14 +41,15 @@ function renderExpense() {
             <div class="expense-field__info">Category</div>
             <div class="expense-field__info">Price</div>
             <div class="expense-field__info">Date</div>
+            <div class="expense-field__info">Description</div>
             <button class="expense-field__button expense-field__button_filter">Filter</button>
+            <div class="expense-field__info expense-field__info-currency">${currency}</div>
           </div>
         </div>
       </div>
     </div>
   `
   mainContainer.insertAdjacentHTML('afterbegin', expenseHTML)
-
   if (dataNote.length > 0) renderExpenseField(dataNote)
 }
 

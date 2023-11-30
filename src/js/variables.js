@@ -9,6 +9,7 @@ const elementDOM_var = {
 const expense_var = {
   noteForm: document.querySelector('#form'),
   allNoteInput: document.querySelectorAll('#note-input'),
+  currencyElement: document.querySelector('.expense-field__info-currency'),
   removeButton: () => document.querySelectorAll('.expense-field__button_remove'),
   editButton: () => document.querySelectorAll('.expense-field__button_edit'),
   filterButton: () => document.querySelector('.expense-field__button_filter'),

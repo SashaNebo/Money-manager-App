@@ -44,9 +44,11 @@
               <div class="expense-field">
                 <div class="expense-field__info">№</div>
                 <div class="expense-field__info">Category</div>
-                <div class="expense-field__info">Price</div>
+                <div class="expense-field__info">Price </div>
                 <div class="expense-field__info">Date</div>
+                <div class="expense-field__info">Description</div>
                 <button class="expense-field__button expense-field__button_filter">Filter</button>
+                <div class="expense-field__info expense-field__info-currency">usd</div>
               </div>
             </div>
           </div>
@@ -64,7 +66,7 @@
               </select>
               <input min='1' type="number" class='note-form__input note-form__input_sum' id='note-input' data-id="input-value" autocomplete='off' placeholder='Price' required>
               <input type="datetime-local" class='note-form__input note-form__input_date' id='note-input' data-id="input-date" required>
-              <textarea resize='none' class='note-form__input note-form__input_txt' name="note-input" id="note-input" cols="30" rows="2" maxlength='20'></textarea>
+              <textarea resize='none' class='note-form__input note-form__input_txt' name="note-input" id="note-input" data-id="input-description" cols="30" rows="2" maxlength='30'></textarea>
               <input class='note-form__submit' type="submit" id='input-submit' value='OKEY' required>
             </form>
           </div>

@@ -132,7 +132,7 @@ function renderFilteredStatistics(filteredArray) {
     <div class="chart__sum">
       <span class="chart__sum-title">Total expenses</span>
       <span class="chart__sum-number">${calcTotalExpenses(filteredArray).toFixed(2)}</span>
-      <span class="chart__sum-currency">USD</span>
+      <span class="chart__sum-currency">${currency}</span>
     </div>
   </div>
   `
@@ -208,7 +208,7 @@ function renderChangeData(tab, value) {
 
 // Currency function
 
-let currency = ''
+let currency = 'USD'
 
 function changeCurrency({ target }) {
   currency = target.value
@@ -316,4 +316,4 @@ function startHome() {
   homeEvents()
 }
 
-export { startHome }
+export { startHome, currency }

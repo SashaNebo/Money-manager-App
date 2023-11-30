@@ -12,6 +12,7 @@ const mark = {
   category: '',
   value: 0,
   date: '',
+  description: '',
 }
 
 let markId = null
@@ -31,14 +32,14 @@ function saveToLS() {
 
 function renderExpenseField(array) {
   const expenseContent = document.getElementById('expense-content')
-  array.forEach(({ id, category, value, date }, i) => {
+  array.forEach(({ id, category, value, date, description }, i) => {
     const expenseField = `
     <div class="expense-field" id="${id}">
       <div class="expense-field__info" id="place">${i + 1}</div>
       <div class="expense-field__info">${category}</div>
       <div class="expense-field__info">${value}</div>
       <div class="expense-field__info">${date}</div>
-      <button class="expense-field__button expense-field__button_info">More Info</button>
+      <div class="expense-field__info expense-field__button_description">${description}</div>
       <button class="expense-field__button expense-field__button_edit">Edit</button>
       <button class="expense-field__button expense-field__button_remove">Remove</button>
     </div>
@@ -85,6 +86,9 @@ function handleNoteInput() {
     case 'input-date':
       mark.date = new Date(this.value).toLocaleString()
       break
+    case 'input-description':
+      mark.description = this.value
+      break
   }
   markId !== null ? (mark.id = markId) : (mark.id = Date.now())
 }
@@ -119,6 +123,9 @@ function fillInputValue() {
       case 'input-date':
         input.value = convertTime(dataInput.date) !== '' ? convertTime(dataInput.date) : ''
         break
+      case 'input-description':
+        input.value = dataInput.description
+        break
     }
   })
 }
@@ -137,7 +144,7 @@ function haveMark() {
 
 function addMark(mark) {
   const expenseContent = document.getElementById('expense-content')
-  const { id, category, value, date } = mark
+  const { id, category, value, date, description } = mark
 
   if (!expenseContent) return
 
@@ -147,7 +154,7 @@ function addMark(mark) {
       <div class="expense-field__info">${category}</div>
       <div class="expense-field__info">${value}</div>
       <div class="expense-field__info">${date}</div>
-      <button class="expense-field__button expense-field__button_info">More Info</button>
+      <div class="expense-field__info expense-field__button_description">${description}</div>
       <button class="expense-field__button expense-field__button_edit">Edit</button>
       <button class="expense-field__button expense-field__button_remove">Remove</button>
     </div>
@@ -179,12 +186,14 @@ function editMark() {
   const fieldCategory = currentField.children[1]
   const fieldValue = currentField.children[2]
   const fieldDate = currentField.children[3]
+  const fieldDescription = currentField.children[4]
 
   dataNote.forEach((obj, i) => (obj.id === markId ? dataNote.splice(i, 1, { ...mark }) : 0))
 
   fieldCategory.textContent = mark.category
   fieldValue.textContent = mark.value
   fieldDate.textContent = mark.date
+  fieldDescription.textContent = mark.description
 
   allNoteInput.forEach(input => (input.value = ''))
   toggleNote()
@@ -202,6 +211,7 @@ function clearMark() {
   mark.category = ''
   mark.value = 0
   mark.date = ''
+  mark.description = ''
 }
 
 // Filter
