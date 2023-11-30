@@ -1,7 +1,7 @@
 import { elementDOM_var } from './variables.js'
 import { dataNote, renderExpenseField } from './expenses.js'
 import { startConvert } from './convert.js'
-import { startHome, startHomeDefault } from './home.js'
+import { startHome } from './home.js'
 const { mainContainer } = elementDOM_var
 function controllActiveTab() {
   if (this.closest('.tab-button_active')) return
@@ -18,10 +18,6 @@ function controllActiveTab() {
     case 'tab-button-convert':
       addActive()
       renderConvert()
-      break
-    case 'tab-button-chart':
-      addActive()
-      renderChart()
       break
     case 'tab-button-home':
       addActive()
@@ -106,15 +102,6 @@ function renderConvert() {
   startConvert()
 }
 
-function renderChart() {
-  const chartHTML = `
-    <div class="chart development-section" id='chart' data-active="active-tab">
-      <h3>Chart in development ...</h3>
-    </div>
-  `
-  mainContainer.insertAdjacentHTML('afterbegin', chartHTML)
-}
-
 function renderHome() {
   const homeHTML = `
     <div class="home" data-active="active-tab">
@@ -182,9 +169,7 @@ function renderHome() {
           </div>
         </div>
   `
-  // mainContainer.insertAdjacentHTML('afterbegin', homeHTML)
 
-  // dataNote.length > 0 ? startHome() : startHomeDefault()
   startHome()
 }
 

@@ -2,7 +2,9 @@ import { elementDOM_var, home_var } from './variables.js'
 import { dataNote } from './expenses.js'
 
 const { mainContainer, change } = elementDOM_var
-const { chartLinear, timeSelect, statisticsContent, chartHTML, titleCategory, homeDataValueEl } = home_var
+const { chartLinear, timeSelect, statisticsContent, chartHTML, titleCategory, homeDataValueEl, currencySelect } = home_var
+
+// Save data LS
 
 function saveMoneyDataToLS() {
   localStorage.setItem('dataMoney', JSON.stringify(tabValue))
@@ -16,6 +18,18 @@ function renderMoneyDatainJSON() {
   }
 }
 
+function saveCurrencytoLS() {
+  localStorage.setItem('currency', JSON.stringify(currency))
+}
+
+function renderCurrencyJSON() {
+  if (localStorage.getItem('currency')) {
+    currency = JSON.parse(localStorage.getItem('currency'))
+  }
+}
+
+// Calculate summ
+
 const calcTotalExpenses = array => array.reduce((acc, { value }) => (acc += +value), 0)
 const calcCategoryExpenses = (c, array) => array.filter(({ category }) => category === c).reduce((acc, { value }) => (acc += +value), 0)
 const calcPercentExpenses = (c, array) => {
@@ -23,6 +37,7 @@ const calcPercentExpenses = (c, array) => {
   return calcCategoryExpenses(c, array) / (calcTotalExpenses(array) / 100)
 }
 
+// Render progress line
 function renderProgressLinear(array) {
   chartLinear().forEach(line => {
     switch (line.dataset.id) {
@@ -42,20 +57,23 @@ function renderProgressLinear(array) {
   })
 }
 
+// Calc date in timestamp
 const getDayAgo = () => Date.now() - 86400000
 const getWeekAgo = () => Date.now() - 86400000 * 7
 const getMounthAgo = () => Date.now() - 86400000 * 30
 const getYearAgo = () => Date.now() - 86400000 * 365
 
-function filterStatisticsForTime({ target }) {
-  function convertTime(date) {
-    const time = date.split(',').reduce((acc, word, i) => {
-      i < 1 ? (acc += word.trim().split('.').reverse().join('-') + 'T') : (acc += word.trim())
-      return acc
-    }, '')
+// Filtered for time
 
-    return time
-  }
+function filterStatisticsForTime({ target }) {
+  // function convertTime(date) {
+  //   const time = date.split(',').reduce((acc, word, i) => {
+  //     i < 1 ? (acc += word.trim().split('.').reverse().join('-') + 'T') : (acc += word.trim())
+  //     return acc
+  //   }, '')
+
+  //   return time
+  // }
 
   let filterArrayForTime = []
 
@@ -123,6 +141,17 @@ function renderFilteredStatistics(filteredArray) {
   renderProgressLinear(filteredArray)
 }
 
+function convertTime(date) {
+  const time = date.split(',').reduce((acc, word, i) => {
+    i < 1 ? (acc += word.trim().split('.').reverse().join('-') + 'T') : (acc += word.trim())
+    return acc
+  }, '')
+
+  return time
+}
+
+// Data money varbs
+
 let dataValue = 0
 let currentTab = ''
 
@@ -130,6 +159,8 @@ let tabValue = {
   profitValue: 0,
   expenseValue: 0,
 }
+
+// Data money functon
 
 function closeChangeTab() {
   change.classList.add('none')
@@ -159,18 +190,34 @@ function renderChangeData(tab, value) {
   saveMoneyDataToLS()
 
   const activeTabValue = document.querySelector(`[data-id="${tab}"]`)
-  activeTabValue.innerHTML = `${(+value).toFixed(2)} <span>USD</span>`
+  activeTabValue.innerHTML = `${(+value).toFixed(2)} <span>${currency}</span>`
 
   if (tab === 'profit') return
 
-  const balanceValue = array => +value - calcTotalExpenses(array)
+  const mounthArray = dataNote.filter(({ date }) => new Date(convertTime(date)).getTime() >= getMounthAgo())
+  const mounthSumm = mounthArray.reduce((acc, { value }) => (acc += +value), 0)
+
+  const balanceValue = summMounth => +value - summMounth
   const balanceHTML = () => {
     return `
-    <div class="balance__info">Relative balance: <span>${balanceValue(dataNote).toFixed(2)}</span> USD</div>
-    <div class="balance__info">Current expense: <span>${calcTotalExpenses(dataNote).toFixed(2)}</span> USD</div>`
+    <div class="balance__info">Relative balance: <span>${balanceValue(mounthSumm).toFixed(2)}</span></div>
+    <div class="balance__info">Current expense: <span>${calcTotalExpenses(mounthArray).toFixed(2)}</span></div>`
   }
   document.querySelector('.balance').innerHTML = balanceHTML()
 }
+
+// Currency function
+
+let currency = ''
+
+function changeCurrency({ target }) {
+  currency = target.value
+  saveCurrencytoLS()
+  document.querySelector('[data-active="active-tab"]').remove()
+  startHome()
+}
+
+// Events
 
 function homeEvents() {
   // Filter time
@@ -181,9 +228,16 @@ function homeEvents() {
   change.querySelector('.change__input').addEventListener('input', handleInput)
   change.querySelector('.change__close').addEventListener('click', closeChangeTab)
   homeDataValueEl().forEach(el => el.addEventListener('click', getActiveTab))
+
+  // Currency
+  currencySelect().addEventListener('change', changeCurrency)
 }
 
+// Start render section
+
 function startHome() {
+  renderCurrencyJSON()
+
   const homeHTML = `
     <div class="home" data-active="active-tab">
           <div class="home__container">
@@ -192,17 +246,17 @@ function startHome() {
                 <div class="data__block">
                   <h3 class="data__title">Profit avg in mounth</h3>
                   <div class="data__wrapper">
-                    <div class="data__value" data-id="profit">${tabValue.profitValue.toFixed(2)} <span>USD</span></div>
+                    <div class="data__value" data-id="profit"> 0.00 <span>${currency}</span></div>
                   </div>
                 </div>
                 <div class="data__block">
                   <h3 class="data__title">Expense avg in mounth</h3>
                   <div class="data__wrapper">
-                    <div class="data__value" data-id="expense">${tabValue.expenseValue.toFixed(2)} <span>USD</span></div>
+                    <div class="data__value" data-id="expense"> 0.00 <span>${currency}</span></div>
                   </div>
                   <div class="balance">
-                    <div class="balance__info">Relative balance: <span>0.00</span> USD</div>
-                    <div class="balance__info">Current expense: <span>${calcTotalExpenses(dataNote).toFixed(2)}</span> USD</div>
+                    <div class="balance__info">Relative balance: <span>0.00</span></div>
+                    <div class="balance__info">Current expense: <span>0.00</span></div>
                   </div>
                 </div>
               </div>
@@ -242,12 +296,18 @@ function startHome() {
                   <div class="chart__sum">
                     <span class="chart__sum-title">Total expenses</span>
                     <span class="chart__sum-number">${calcTotalExpenses(dataNote).toFixed(2)}</span>
-                    <span class="chart__sum-currency">USD</span>
+                    <span class="chart__sum-currency">${currency}</span>
                   </div>
                 </div>
               </div>
             </div>
           </div>
+          <select class='currency' name="currency" id="currency">
+            <option value="" disabled selected hidden>${currency}</option>
+            <option value="usd">USD</option>
+            <option value="eur">EUR</option>
+            <option value="byn">BYN</option>
+          </select>
         </div>
   `
   mainContainer.insertAdjacentHTML('beforeend', homeHTML)
@@ -256,74 +316,4 @@ function startHome() {
   homeEvents()
 }
 
-function startHomeDefault() {
-  const homeHTML = `
-    <div class="home" data-active="active-tab">
-          <div class="home__container">
-            <div class="home__content">
-              <div class="data">
-                <div class="data__block">
-                  <h3 class="data__title">Profit avg in mounth</h3>
-                  <div class="data__wrapper">
-                    <div class="data__value">8933.00 <span>USD</span></div>
-                  </div>
-                </div>
-                <div class="data__block">
-                  <h3 class="data__title">Expense avg in mounth</h3>
-                  <div class="data__wrapper">
-                    <div class="data__value">3009.15 <span>USD</span></div>
-                  </div>
-                  <div class="balance">
-                    <div class="balance__info">Account balance: <span>960.00</span> USD</div>
-                    <div class="balance__info">Current expense: <span>2001.00</span> USD</div>
-                  </div>
-                </div>
-              </div>
-
-              <div class="statistics" id="statistics">
-                <div class="statistics-header">
-                  <h1 class="statistics__title">Statistics All</h1>
-                  <select class='statistics__select' name="time" id="time">
-                    <option class='statistics__option' value="" disabled selected hidden>Choose Time</option>
-                    <option class='statistics__option' value="day">day</option>
-                    <option class='statistics__option' value="week">week</option>
-                    <option class='statistics__option' value="mounth">mounth</option>
-                    <option class='statistics__option' value="year">year</option>
-                    <option class='statistics__option' value="all">all</option>
-                  </select>
-                </div>
-                <div class="chart">
-                  <div class="chart__list">
-                    <div class="chart__el">
-                      <h3 class="chart__title">Product <span class='chart_sum'>1200.00</span></h3>
-                      <div class="chart__linear chart__linear-product"><span class='percent'>30%</span></div>
-                    </div>
-                    <div class="chart__el">
-                      <h3 class="chart__title">Home <span class='chart_sum'>700.00</span></h3>
-                      <div class="chart__linear chart__linear-home"><span class='percent'>20%</span></div>
-                    </div>
-                    <div class="chart__el">
-                      <h3 class="chart__title">Fun <span class='chart_sum'>400.00</span></h3>
-                      <div class="chart__linear chart__linear-fun"><span class='percent'>15%</span></div>
-                    </div>
-                    <div class="chart__el">
-                      <h3 class="chart__title">Other <span class='chart_sum'>1500.00</span></h3>
-                      <div class="chart__linear chart__linear-other"><span class='percent'>35%</span></div>
-                    </div>
-                  </div>
-
-                  <div class="chart__sum">
-                    <span class="chart__sum-title">Total expenses</span>
-                    <span class="chart__sum-number">2990.00</span>
-                    <span class="chart__sum-currency">USD</span>
-                  </div>
-                </div>
-              </div>
-            </div>
-          </div>
-        </div>
-  `
-  mainContainer.insertAdjacentHTML('beforeend', homeHTML)
-}
-
-export { startHome, startHomeDefault }
+export { startHome }

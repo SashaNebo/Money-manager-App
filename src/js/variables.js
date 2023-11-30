@@ -37,6 +37,7 @@ const home_var = {
   chartHTML: () => document.getElementById('chart'),
   titleCategory: () => document.querySelector('.statistics__title'),
   homeDataValueEl: () => document.querySelectorAll('.data__value'),
+  currencySelect: () => document.getElementById('currency'),
 }
 
 export { elementDOM_var, expense_var, convert_var, home_var }
