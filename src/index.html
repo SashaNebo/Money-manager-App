@@ -7,19 +7,15 @@
   <title>Money Manager App</title>
   <link rel="stylesheet" href="styles/reset.css">
   <link rel="stylesheet" href="styles/style.css">
-  <link rel="stylesheet" href="styles/convert.css">
-  <link rel="stylesheet" href="styles/home.css">
   <link href="https://fonts.googleapis.com/css2?family=Rubik:wght@300;400;500;700&display=swap" rel="stylesheet">
 </head>
 
 <body>
 
   <div class="app">
-
     <header class="header">
       <h1 class='header-title'>Money manager app</h1>
     </header>
-
     <div class="app__wrapper">
       <aside class="sidebar">
         <nav class="sideabar-nav">
@@ -37,7 +33,6 @@
         </nav>
       </aside>
       <main class="main" id='main'>
-
         <div class="expense" id='expense' data-active="active-tab">
           <div class="expense-container">
             <div class="expense-content" id='expense-content'>
@@ -53,7 +48,6 @@
             </div>
           </div>
         </div>
-
         <div class="note none" id='form'>
           <div class="note-container">
             <form action="GET" class="note-form">
@@ -66,92 +60,17 @@
               </select>
               <input min='1' type="number" class='note-form__input note-form__input_sum' id='note-input' data-id="input-value" autocomplete='off' placeholder='Price' required>
               <input type="datetime-local" class='note-form__input note-form__input_date' id='note-input' data-id="input-date" required>
-              <textarea resize='none' class='note-form__input note-form__input_txt' name="note-input" id="note-input" data-id="input-description" cols="30" rows="2" maxlength='30'></textarea>
+              <textarea resize='none' class='note-form__input note-form__input_txt' name="note-input" id="note-input" data-id="input-description" cols="30" rows="2" maxlength='20'></textarea>
               <input class='note-form__submit' type="submit" id='input-submit' value='OKEY' required>
             </form>
           </div>
         </div>
-
-        <!-- <div class="home" data-active="active-tab">
-          <div class="home__container">
-            <div class="home__content" id="home-content">
-              <div class="data">
-                <div class="data__block">
-                  <h3 class="data__title">Profit avg in mounth</h3>
-                  <div class="data__wrapper">
-                    <div class="data__value" data-id="profit"> 0.00 <span>USD</span></div>
-                  </div>
-                </div>
-                <div class="data__block">
-                  <h3 class="data__title">Expense avg in mounth</h3>
-                  <div class="data__wrapper">
-                    <div class="data__value" data-id="expense"> 0.00 <span>USD</span></div>
-                  </div>
-                  <div class="balance">
-                    <div class="balance__info">Relative balance: <span>0.00</span> USD</div>
-                    <div class="balance__info">Current expense: <span>0.00</span> USD</div>
-                  </div>
-                </div>
-              </div>
-
-              <div class="statistics" id="statistics">
-                <div class="statistics-header">
-                  <h1 class="statistics__title">Statistics All</h1>
-                  <select class='statistics__select' name="time" id="time">
-                    <option class='statistics__option' value="" disabled selected hidden>Choose Time</option>
-                    <option class='statistics__option' value="day">day</option>
-                    <option class='statistics__option' value="week">week</option>
-                    <option class='statistics__option' value="mounth">mounth</option>
-                    <option class='statistics__option' value="year">year</option>
-                    <option class='statistics__option' value="all">all</option>
-                  </select>
-                </div>
-                <div class="chart" id="chart">
-                  <div class="chart__list">
-                    <div class="chart__el">
-                      <h3 class="chart__title">Product <span class='chart_sum'>${calcCategoryExpenses('product', dataNote).toFixed(2)}</span></h3>
-                      <div class="chart__linear chart__linear-product" data-id="product"><span class='percent'>${calcPercentExpenses('product', dataNote).toFixed(2)}%</span></div>
-                    </div>
-                    <div class="chart__el">
-                      <h3 class="chart__title">Home <span class='chart_sum'>${calcCategoryExpenses('home', dataNote).toFixed(2)}</span></h3>
-                      <div class="chart__linear chart__linear-home" data-id="home"><span class='percent'>${calcPercentExpenses('home', dataNote).toFixed(2)}%</span></div>
-                    </div>
-                    <div class="chart__el">
-                      <h3 class="chart__title">Fun <span class='chart_sum'>${calcCategoryExpenses('fun', dataNote).toFixed(2)}</span></h3>
-                      <div class="chart__linear chart__linear-fun" data-id="fun"><span class='percent'>${calcPercentExpenses('fun', dataNote).toFixed(2)}%</span></div>
-                    </div>
-                    <div class="chart__el">
-                      <h3 class="chart__title">Other <span class='chart_sum'>${calcCategoryExpenses('other', dataNote).toFixed(2)}</span></h3>
-                      <div class="chart__linear chart__linear-other" data-id="other"><span class='percent'>${calcPercentExpenses('other', dataNote).toFixed(2)}%</span></div>
-                    </div>
-                  </div>
-
-                  <div class="chart__sum">
-                    <span class="chart__sum-title">Total expenses</span>
-                    <span class="chart__sum-number">${calcTotalExpenses(dataNote).toFixed(2)}</span>
-                    <span class="chart__sum-currency">USD</span>
-                  </div>
-                </div>
-              </div>
-            </div>
-          </div>
-
-          <select class='currency' name="currency" id="currency">
-            <option value="" disabled selected hidden>USD</option>
-            <option value="usd">USD</option>
-            <option value="eur">EUR</option>
-            <option value="byn">BYN</option>
-          </select>
-        </div> -->
-
       </main>
     </div>
-
     <div class="put" id='put'>
       <div class="put__txt">+</div>
     </div>
     <div class="overlay none" id='overlay'></div>
-
   </div>
 
   <div class="change none" id='change'>

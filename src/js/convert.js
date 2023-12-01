@@ -6,10 +6,13 @@ const url = 'https://v6.exchangerate-api.com/v6/9c6242bd7e216a4a71fe397b'
 let { from, to, amount } = store
 
 async function getCurrency() {
-  const response = await fetch(`${url}/codes`)
-  const data = await response.json()
-
-  return data.supported_codes
+  try {
+    const response = await fetch(`${url}/codes`)
+    const data = await response.json()
+    return data.supported_codes
+  } catch (err) {
+    console.log(`Пожалуйста, проверьте подключение к интеренету или ожидайте ответа от сервера.\nВ текущий момент данные валют не могут быть получены\n${err}`)
+  }
 }
 
 function switchCurrency() {
@@ -24,11 +27,14 @@ function switchCurrency() {
 
 async function sendRequest(e) {
   e.preventDefault()
+  try {
+    const response = await fetch(`${url}/pair/${from}/${to}/${amount}`)
+    const data = await response.json()
 
-  const response = await fetch(`${url}/pair/${from}/${to}/${amount}`)
-  const data = await response.json()
-
-  renderConversionResult(data)
+    renderConversionResult(data)
+  } catch (err) {
+    console.log(`Какие-то неполадки при запросе данный с сервера. Пока налейте чашечку чая и передохните, все будет хорошо\n${err}`)
+  }
 }
 
 function renderConversionResult({ conversion_result }) {

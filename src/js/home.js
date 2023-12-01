@@ -29,7 +29,6 @@ function renderCurrencyJSON() {
 }
 
 // Calculate summ
-
 const calcTotalExpenses = array => array.reduce((acc, { value }) => (acc += +value), 0)
 const calcCategoryExpenses = (c, array) => array.filter(({ category }) => category === c).reduce((acc, { value }) => (acc += +value), 0)
 const calcPercentExpenses = (c, array) => {
@@ -64,17 +63,7 @@ const getMounthAgo = () => Date.now() - 86400000 * 30
 const getYearAgo = () => Date.now() - 86400000 * 365
 
 // Filtered for time
-
 function filterStatisticsForTime({ target }) {
-  // function convertTime(date) {
-  //   const time = date.split(',').reduce((acc, word, i) => {
-  //     i < 1 ? (acc += word.trim().split('.').reverse().join('-') + 'T') : (acc += word.trim())
-  //     return acc
-  //   }, '')
-
-  //   return time
-  // }
-
   let filterArrayForTime = []
 
   switch (target.value) {
